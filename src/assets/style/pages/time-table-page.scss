@@ -1,0 +1,11 @@
+.time-table-page {
+  width: 85%;
+  height: 85vh;
+  margin: 10vh auto 5vh;
+  display: flex;
+  flex-wrap: nowrap;
+  max-height: 80vh;
+  gap: 18px;
+  overflow: auto;
+  padding: 5px;
+}
