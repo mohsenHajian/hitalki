@@ -9,6 +9,47 @@
   width: 45%;
   direction: ltr;
   cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+  .hover-content {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    top: -32px;
+    right: calc(50% - 75px);
+    width: 150px;
+    height: 30px;
+    font-size: 10px;
+    background-color: #e6e6e6d8;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    z-index: 10;
+    transition: 0.2s;
+  }
+  .hover-content::before {
+    content: '';
+    position: absolute;
+    right: calc(50% - 4px);
+    top: 30px;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-top: 6px solid #e6e6e6d8;
+    border-right: 4px solid transparent;
+  }
+}
+.time-unit:hover {
+  .hover-content {
+    opacity: 1;
+    pointer-events: none;
+    transition-delay: 0.6s;
+  }
+}
+.time-unit-unClicked {
+  background-color: transparent;
 }
 .time-unit-clicked {
   background-color: blue;

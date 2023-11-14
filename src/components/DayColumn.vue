@@ -1,6 +1,7 @@
 <script>
 import { inject } from 'vue'
 import TimeUnit from './TimeUnit.vue'
+
 export default {
   setup() {
     const moment = inject('moment')
@@ -8,7 +9,9 @@ export default {
   },
   props: {
     DateInfo: Number,
-    Today: Boolean
+    Today: Boolean,
+    timeUnitChanged: Boolean,
+    timeUnitChangedhandler: Function
   },
   computed: {
     dayTime() {
@@ -39,13 +42,19 @@ export default {
 </script>
 
 <template>
-  <div class="day-column" :class="Today && 'today-day-column'">
+  <div class="day-column" :class="Today && 'today-day-column'" ref="dayColumn">
     <div class="day-column-header">
       <!-- <span>{{ moment().format('jYYYY/jM/jD') }}</span> -->
       <span>{{ dayTime[3] }}</span>
       <span>{{ dayTime[2].replace(',', ' ') + ' ' + dayTime[1] }}</span>
     </div>
-
-    <TimeUnit v-for="time in timeUnitArray" :key="time" :timeStanp="time" />
+    <TimeUnit
+      :ref="`timeUnit`"
+      v-for="time in timeUnitArray"
+      :key="time"
+      :timeStanp="time"
+      :timeUnitChanged="timeUnitChanged"
+      :timeUnitChangedhandler="timeUnitChangedhandler"
+    />
   </div>
 </template>

@@ -1,6 +1,8 @@
 <script>
 import { inject } from 'vue'
+import { VueSelecto } from 'vue3-selecto'
 import DayColumn from '../components/DayColumn.vue'
+
 export default {
   setup() {
     const moment = inject('moment')
@@ -16,7 +18,8 @@ export default {
     return { moment }
   },
   components: {
-    DayColumn
+    DayColumn,
+    VueSelecto
   },
   computed: {
     weekDate() {
@@ -27,17 +30,64 @@ export default {
       }
       return weekDateArray
     }
+  },
+  data() {
+    return {
+      pageRenderd: false,
+      timeUnitChanged: false
+    }
+  },
+  mounted() {
+    this.pageRenderd = true
+  },
+  methods: {
+    onSelect(e) {
+      e.added.forEach((el) => {
+        this.classTimeHandler(el)
+      })
+    },
+    classTimeHandler(el) {
+      if (el?.classList?.value.includes('time-unit-unClicked')) {
+        el.classList.add('time-unit-clicked')
+        el.classList.remove('time-unit-unClicked')
+      } else if (el?.classList?.value?.includes('time-unit-clicked')) {
+        el.classList.add('time-unit-reserved')
+        el.classList.remove('time-unit-clicked')
+      } else if (el?.classList?.value.includes('time-unit-reserved')) {
+        el.classList.add('time-unit-unClicked')
+        el.classList.remove('time-unit-reserved')
+      }
+    },
+    timeUnitChangedhandler() {
+      this.timeUnitChanged = false
+    }
   }
 }
 </script>
 
 <template>
-  <div class="time-table-page">
+  <div class="time-table-page" ref="timeTablePage">
+    <VueSelecto
+      v-if="pageRenderd"
+      :container="containerSelecto"
+      :dragContainer="window"
+      :selectableTargets="['.time-unit']"
+      :selectByClick="false"
+      :selectFromInside="true"
+      :continueSelect="false"
+      :toggleContinueSelect="'shift'"
+      :keyContainer="window"
+      :hitRate="100"
+      @select="onSelect"
+      @dragEnd="timeUnitChanged = true"
+    />
     <DayColumn
       v-for="(Date, index) in weekDate"
       :key="Date"
       :DateInfo="Date"
       :Today="index === 0 ? true : false"
+      :timeUnitChanged="timeUnitChanged"
+      :timeUnitChangedhandler="timeUnitChangedhandler"
     />
   </div>
 </template>

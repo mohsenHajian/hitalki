@@ -81,6 +81,18 @@ body {
   direction: rtl;
   user-select: none;
 }
+.time-unit-unClicked {
+  background-color: transparent;
+}
+.time-unit-clicked {
+  background-color: blue;
+}
+.time-unit-reserved {
+  background-color: green;
+}
+.selected {
+  background-color: darkorchid;
+}
 
 ::-webkit-scrollbar {
   width: 4px;
