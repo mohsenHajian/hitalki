@@ -66,7 +66,10 @@ export default {
 </script>
 
 <template>
-  <div class="time-table-page" ref="timeTablePage">
+  <div class="time-table-page">
+    <button class="goTo-user-time-table-page" @click="$router.push('/UserTimeTable')">
+      جدول زمان بندی کاربر
+    </button>
     <VueSelecto
       v-if="pageRenderd"
       :container="containerSelecto"
@@ -77,7 +80,7 @@ export default {
       :continueSelect="false"
       :toggleContinueSelect="'shift'"
       :keyContainer="window"
-      :hitRate="100"
+      :hitRate="1"
       @select="onSelect"
       @dragEnd="timeUnitChanged = true"
     />

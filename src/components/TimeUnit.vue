@@ -21,9 +21,6 @@ export default {
       let dateArray = new Intl.DateTimeFormat('fa-IR', { dateStyle: 'full', timeStyle: 'long' })
         .format(new Date(this.timeStanp))
         .split(' ')
-      console.log(dateArray)
-      console.log(new Date(this.timeStanp + 1800000).getHours())
-      console.log(new Date(this.timeStanp).getMinutes())
       let periodOfTime = `${new Date(this.timeStanp + 1800000).getHours() || '24'}:${
         new Date(this.timeStanp + 1800000).getMinutes() || '00'
       } - ${new Date(this.timeStanp).getHours() || '24'}:${

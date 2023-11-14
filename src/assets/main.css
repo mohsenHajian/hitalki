@@ -1,4 +1,5 @@
 @import './base.css';
 @import '../assets/style/pages/time-table-page.scss';
+@import '../assets/style/pages/user-time-table-page.scss';
 @import '../assets/style/components/day-column.scss';
 @import '../assets/style/components/time-unit.scss';
