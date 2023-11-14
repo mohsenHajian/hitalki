@@ -7,4 +7,12 @@
   min-width: fit-content;
   text-align: center;
   width: 45%;
+  direction: ltr;
+  cursor: pointer;
+}
+.time-unit-clicked {
+  background-color: blue;
+}
+.time-unit-reserved {
+  background-color: green;
 }
