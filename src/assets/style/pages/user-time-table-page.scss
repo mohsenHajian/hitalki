@@ -1,4 +1,4 @@
-.time-table-page {
+.user-time-table-page {
   width: 85%;
   height: 85vh;
   margin: 10vh auto 5vh;
@@ -9,7 +9,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 5px;
-  .goTo-user-time-table-page {
+  .goTo-time-table-page {
     position: absolute;
     right: 7.5%;
     top: 15px;
@@ -26,12 +26,12 @@
 }
 
 @media screen and (max-width: 992px) {
-  .time-table-page {
+  .user-time-table-page {
     width: 95%;
   }
 }
 @media screen and (max-width: 768px) {
-  .time-table-page {
+  .user-time-table-page {
     overflow-x: auto;
     .day-column {
       min-width: 120px;

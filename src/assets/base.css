@@ -79,6 +79,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   direction: rtl;
+  user-select: none;
+}
+.time-unit-unClicked {
+  background-color: transparent;
+}
+.time-unit-clicked {
+  background-color: var(--blue);
+}
+.time-unit-reserved {
+  background-color: var(--green);
+}
+.selected {
+  background-color: var(--blueviolet);
 }
 
 ::-webkit-scrollbar {
