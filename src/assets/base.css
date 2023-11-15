@@ -85,13 +85,13 @@ body {
   background-color: transparent;
 }
 .time-unit-clicked {
-  background-color: blue;
+  background-color: var(--blue);
 }
 .time-unit-reserved {
-  background-color: green;
+  background-color: var(--green);
 }
 .selected {
-  background-color: darkorchid;
+  background-color: var(--blueviolet);
 }
 
 ::-webkit-scrollbar {

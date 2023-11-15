@@ -7,26 +7,42 @@ export default {
     return { moment, timeUnit }
   },
   props: {
-    timeStanp: Number,
+    TimeInfo: Object,
+    arrayTimeUnits: Array,
+    daysToReach: Number,
     timeUnitChanged: Boolean,
-    timeUnitChangedhandler: Function
+    timeUnitChangedhandler: Function,
+    updateTimeData: Function,
+    updateUserReservableData: Function,
+    timeUnitsDatahandler: Function
   },
   computed: {
     PrintTime() {
-      let hours = new Date(this.timeStanp).getHours()
-      let minutes = new Date(this.timeStanp).getMinutes()
+      let hours = new Date(this.TimeInfo.timeStanp).getHours()
+      let minutes = new Date(this.TimeInfo.timeStanp).getMinutes()
       return `${hours}:${minutes || '00'}`
     },
     HoverDate() {
       let dateArray = new Intl.DateTimeFormat('fa-IR', { dateStyle: 'full', timeStyle: 'long' })
-        .format(new Date(this.timeStanp))
+        .format(new Date(this.TimeInfo.timeStanp))
         .split(' ')
-      let periodOfTime = `${new Date(this.timeStanp + 1800000).getHours() || '24'}:${
-        new Date(this.timeStanp + 1800000).getMinutes() || '00'
-      } - ${new Date(this.timeStanp).getHours() || '24'}:${
-        new Date(this.timeStanp).getMinutes() || '00'
-      }`
-      return `${dateArray[3]} ${dateArray[2].replace(',', '')} ${dateArray[1]} , ${periodOfTime}`
+      if (!this.updateUserReservableData) {
+        let periodOfTime = `${new Date(this.TimeInfo.timeStanp + 1800000).getHours() || '24'}:${
+          new Date(this.TimeInfo.timeStanp + 1800000).getMinutes() || '00'
+        } - ${new Date(this.TimeInfo.timeStanp).getHours() || '24'}:${
+          new Date(this.TimeInfo.timeStanp).getMinutes() || '00'
+        }`
+        return `${dateArray[3]} ${dateArray[2].replace(',', '')} ${dateArray[1]} , ${periodOfTime}`
+      } else {
+        let periodOfTowTime = `${new Date(this.TimeInfo.timeStanp + 3600000).getHours() || '24'}:${
+          new Date(this.TimeInfo.timeStanp + 3600000).getMinutes() || '00'
+        } - ${new Date(this.TimeInfo.timeStanp).getHours() || '24'}:${
+          new Date(this.TimeInfo.timeStanp).getMinutes() || '00'
+        }`
+        return `${dateArray[3]} ${dateArray[2].replace(',', '')} ${
+          dateArray[1]
+        } , ${periodOfTowTime}`
+      }
     }
   },
   data() {
@@ -49,30 +65,54 @@ export default {
         }
         this.timeUnitChangedhandler()
       }
+    },
+    clickStatus(newVal) {
+      this.updateTimeData({
+        periodOfTimeStatus: newVal,
+        timeStanp: this.TimeInfo.timeStanp,
+        daysToReach: this.daysToReach
+      })
     }
   },
   methods: {
     classTimeHandler() {
-      switch (this.clickStatus) {
-        case 'clicked':
-          return 'time-unit time-unit-clicked'
-        case 'reserved':
-          return 'time-unit time-unit-reserved'
-        case 'unClicked':
-          return 'time-unit time-unit-unClicked'
+      if (!this.updateUserReservableData) {
+        switch (this.clickStatus) {
+          case 'clicked':
+            return 'time-unit after-none time-unit-clicked'
+          case 'reserved':
+            return 'time-unit after-none time-unit-reserved'
+          case 'unClicked':
+            return 'time-unit after-none time-unit-unClicked'
+        }
+      } else {
+        switch (this.TimeInfo.periodOfTimeStatus) {
+          case 'clicked':
+            return `time-unit time-unit-unClicked ${
+              !this.TimeInfo.nextCubeClickable && 'after-none'
+            }`
+          case 'reserved':
+            return `time-unit time-unit-disable ${!this.TimeInfo.nextCubeClickable && 'after-none'}`
+          case 'unClicked':
+            return `time-unit time-unit-none ${!this.TimeInfo.nextCubeClickable && 'after-none'}`
+        }
       }
     },
     clickTimeHandler() {
-      switch (this.clickStatus) {
-        case 'unClicked':
-          this.clickStatus = 'clicked'
-          break
-        case 'clicked':
-          this.clickStatus = 'reserved'
-          break
-        case 'reserved':
-          this.clickStatus = 'unClicked'
-          break
+      if (!this.updateUserReservableData) {
+        switch (this.clickStatus) {
+          case 'unClicked':
+            this.clickStatus = 'clicked'
+            break
+          case 'clicked':
+            this.clickStatus = 'reserved'
+            break
+          case 'reserved':
+            this.clickStatus = 'unClicked'
+            break
+        }
+      } else {
+        this.updateUserReservableData(this.TimeInfo)
       }
     }
   }
@@ -80,8 +120,13 @@ export default {
 </script>
 
 <template>
-  <div ref="timeUnit" :class="classTimeHandler()" @click="clickTimeHandler()">
-    <div class="hover-content">{{ HoverDate }}</div>
-    <span>{{ PrintTime }}</span>
+  <div
+    ref="timeUnit"
+    :class="this.TimeInfo?.selected ? 'time-unit time-unit-selected' : classTimeHandler()"
+    @click="clickTimeHandler()"
+  >
+    <div class="time-unit-selectable"></div>
+    <div class="hover-content IranSansMediumNum">{{ HoverDate }}</div>
+    <span class="IranSansLightNum">{{ PrintTime }}</span>
   </div>
 </template>

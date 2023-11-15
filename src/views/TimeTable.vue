@@ -1,21 +1,14 @@
 <script>
 import { inject } from 'vue'
 import { VueSelecto } from 'vue3-selecto'
+import { useCounterStore } from '@/stores/reservableData'
 import DayColumn from '../components/DayColumn.vue'
 
 export default {
   setup() {
     const moment = inject('moment')
-    // const d = new Date(2022, 2, 21)
-    // const de = new Date(Date.now() + 86400000).toLocaleString()
-    // console.log(Date.now())
-    // console.log(new Date())
-    // console.log(d)
-    // console.log(de)
-    // console.log(
-    //   new Intl.DateTimeFormat('fa-IR', { dateStyle: 'full', timeStyle: 'long' }).format(d)
-    // )
-    return { moment }
+    const reservableStore = useCounterStore()
+    return { moment, reservableStore }
   },
   components: {
     DayColumn,
@@ -26,7 +19,12 @@ export default {
       let weekDateArray = []
       for (let i = 0; i < 7; i++) {
         let exteraTimeStanp = 86400000 * i
-        weekDateArray.push(Date.now() + exteraTimeStanp)
+        let dayObject = {
+          daysToReach: i,
+          dayTimeStanp: Date.now() + exteraTimeStanp,
+          timeUnits: []
+        }
+        weekDateArray.push(dayObject)
       }
       return weekDateArray
     }
@@ -34,7 +32,8 @@ export default {
   data() {
     return {
       pageRenderd: false,
-      timeUnitChanged: false
+      timeUnitChanged: false,
+      timeData: []
     }
   },
   mounted() {
@@ -60,6 +59,36 @@ export default {
     },
     timeUnitChangedhandler() {
       this.timeUnitChanged = false
+    },
+    timeDataMaker(objectOfDays) {
+      this.timeData = [...this.timeData, objectOfDays]
+    },
+    updateTimeData(objectOfTime) {
+      let timeDataCopy = [...this.timeData]
+      let updatedTimeData = timeDataCopy.map((dayObject) => {
+        if (objectOfTime.daysToReach === dayObject.daysToReach) {
+          let updatedTimeUnits = dayObject.timeUnits.map((timeObj) => {
+            if (objectOfTime.timeStanp === timeObj.timeStanp) {
+              return {
+                periodOfTimeStatus: objectOfTime.periodOfTimeStatus,
+                timeStanp: objectOfTime.timeStanp,
+                daysToReach: objectOfTime.daysToReach
+              }
+            } else {
+              return timeObj
+            }
+          })
+          return {
+            daysToReach: dayObject.daysToReach,
+            dayTimeStanp: objectOfTime.timeStanp,
+            timeUnits: updatedTimeUnits
+          }
+        } else {
+          return dayObject
+        }
+      })
+      this.timeData = updatedTimeData
+      this.reservableStore.reservableDataHandler(this.timeData)
     }
   }
 }
@@ -67,7 +96,7 @@ export default {
 
 <template>
   <div class="time-table-page">
-    <button class="goTo-user-time-table-page" @click="$router.push('/UserTimeTable')">
+    <button class="goTo-user-time-table-page IranSansLight" @click="$router.push('/UserTimeTable')">
       جدول زمان بندی کاربر
     </button>
     <VueSelecto
@@ -88,9 +117,12 @@ export default {
       v-for="(Date, index) in weekDate"
       :key="Date"
       :DateInfo="Date"
+      :daysToReach="index"
       :Today="index === 0 ? true : false"
       :timeUnitChanged="timeUnitChanged"
       :timeUnitChangedhandler="timeUnitChangedhandler"
+      :timeDataMaker="timeDataMaker"
+      :updateTimeData="updateTimeData"
     />
   </div>
 </template>

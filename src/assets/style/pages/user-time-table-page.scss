@@ -6,7 +6,8 @@
   flex-wrap: nowrap;
   max-height: 80vh;
   gap: 18px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 5px;
   .goTo-time-table-page {
     position: absolute;
@@ -14,12 +15,26 @@
     top: 15px;
     border: none;
     outline: none;
-    background-color: black;
+    background-color: var(--black);
     border-radius: 8px;
     width: fit-content;
     padding: 15px;
-    color: #f6f6f6;
+    color: var(--white-d1);
     text-align: center;
     cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .user-time-table-page {
+    width: 95%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .user-time-table-page {
+    overflow-x: auto;
+    .day-column {
+      min-width: 120px;
+    }
   }
 }

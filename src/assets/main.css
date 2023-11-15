@@ -3,3 +3,6 @@
 @import '../assets/style/pages/user-time-table-page.scss';
 @import '../assets/style/components/day-column.scss';
 @import '../assets/style/components/time-unit.scss';
+@import '../assets/style/general/font.scss';
+@import '../assets/style/general/var.scss';
+@import '../assets/style/general/utils.scss';
