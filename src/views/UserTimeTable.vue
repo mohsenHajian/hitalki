@@ -6,17 +6,14 @@ import DayColumn from '../components/DayColumn.vue'
 export default {
   setup() {
     const moment = inject('moment')
-    // const d = new Date(2022, 2, 21)
-    // const de = new Date(Date.now() + 86400000).toLocaleString()
-    // console.log(Date.now())
-    // console.log(new Date())
-    // console.log(d)
-    // console.log(de)
-    // console.log(
-    //   new Intl.DateTimeFormat('fa-IR', { dateStyle: 'full', timeStyle: 'long' }).format(d)
-    // )
     const reservableStore = useCounterStore()
     return { moment, reservableStore }
+  },
+  name: 'userTimeTablePage',
+  head() {
+    return {
+      title: 'زمانبندی زبان آموز'
+    }
   },
   components: {
     DayColumn
@@ -40,7 +37,8 @@ export default {
     return {
       pageRenderd: false,
       userReservableData: undefined,
-      userReservableDataRender: undefined
+      userReservableDataRender: undefined,
+      lastSelectStanp: undefined
     }
   },
   mounted() {
@@ -73,12 +71,8 @@ export default {
           dayObject.timeUnits.map((timeObj, index) => {
             if (
               selectedUnits.timeStanp === timeObj.timeStanp &&
-              dayObject.timeUnits[index].selected === true
-            ) {
-              this.resetData()
-            } else if (
-              selectedUnits.timeStanp === timeObj.timeStanp &&
-              dayObject.timeUnits[index + 1]?.periodOfTimeStatus === 'clicked'
+              dayObject.timeUnits[index + 1]?.periodOfTimeStatus === 'clicked' &&
+              this.lastSelectStanp !== selectedUnits.timeStanp
             ) {
               dayObject.timeUnits[index + 1].selected = true
               dayObject.timeUnits[index].selected = true
@@ -86,7 +80,8 @@ export default {
           })
         }
       })
-      // this.userReservableDataRender = b
+      this.lastSelectStanp =
+        this.lastSelectStanp === selectedUnits.timeStanp ? undefined : selectedUnits.timeStanp
     },
     resetData() {
       this.userReservableData.map((dayObject) => {

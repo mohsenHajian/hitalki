@@ -10,6 +10,12 @@ export default {
     const reservableStore = useCounterStore()
     return { moment, reservableStore }
   },
+  name: 'timeTablePage',
+  head() {
+    return {
+      title: 'زمانبندی مدرس'
+    }
+  },
   components: {
     DayColumn,
     VueSelecto
@@ -95,20 +101,20 @@ export default {
 </script>
 
 <template>
-  <div class="time-table-page">
+  <div class="time-table-page" ref="containerSelecto">
     <button class="goTo-user-time-table-page IranSansLight" @click="$router.push('/UserTimeTable')">
       جدول زمان بندی کاربر
     </button>
     <VueSelecto
       v-if="pageRenderd"
-      :container="containerSelecto"
-      :dragContainer="window"
+      :container="$refs.containerSelecto"
+      :dragContainer="$refs.containerSelecto"
       :selectableTargets="['.time-unit']"
       :selectByClick="false"
       :selectFromInside="true"
       :continueSelect="false"
       :toggleContinueSelect="'shift'"
-      :keyContainer="window"
+      :keyContainer="$refs.containerSelecto"
       :hitRate="1"
       @select="onSelect"
       @dragEnd="timeUnitChanged = true"
