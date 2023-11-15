@@ -1,18 +1,12 @@
 <script>
 import { inject } from 'vue'
 import TimeUnit from './TimeUnit.vue'
-<<<<<<< HEAD
-=======
 
->>>>>>> user-time-table-logic
 export default {
   setup() {
     const moment = inject('moment')
     return { moment }
   },
-<<<<<<< HEAD
-  components: { TimeUnit }
-=======
   props: {
     DateInfo: Object,
     daysToReach: Number,
@@ -68,22 +62,10 @@ export default {
         timeUnits: timePeriodsArray
       })
   }
->>>>>>> user-time-table-logic
 }
 </script>
 
 <template>
-<<<<<<< HEAD
-  <div class="day-column">
-    <div class="day-column-header">
-      <!-- <span>{{ moment().format('jYYYY/jM/jD') }}</span> -->
-      <span>یکشنبه</span>
-      <span>22 آبان</span>
-    </div>
-    <TimeUnit />
-    <TimeUnit />
-    <TimeUnit />
-=======
   <div class="day-column" :class="Today && 'today-day-column'" ref="dayColumn">
     <div class="day-column-header">
       <!-- <span>{{ moment().format('jYYYY/jM/jD') }}</span> -->
@@ -102,6 +84,5 @@ export default {
       :updateTimeData="updateTimeData"
       :updateUserReservableData="updateUserReservableData"
     />
->>>>>>> user-time-table-logic
   </div>
 </template>
