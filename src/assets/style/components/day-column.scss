@@ -6,12 +6,8 @@
   min-height: 100%;
   height: fit-content;
   border-radius: 20px;
-<<<<<<< HEAD
-  box-shadow: 0 0 5px #f6f6f652;
-=======
   padding-bottom: 20px;
   box-shadow: 0 0 5px var(--whitesmoke-d3);
->>>>>>> user-time-table-logic
   gap: 10px;
   .day-column-header {
     display: flex;
@@ -25,7 +21,6 @@
     width: 100%;
     padding: 15px 0;
     border-radius: 20px 20px 0 0;
-<<<<<<< HEAD
     border-bottom: 1px solid #f6f6f65d;
   }
   .day-column-header::before {
@@ -46,7 +41,6 @@
   .day-column-header::before {
     content: '';
     background-color: var(--green-t1);
->>>>>>> user-time-table-logic
     position: absolute;
     top: 0;
     width: 100%;
