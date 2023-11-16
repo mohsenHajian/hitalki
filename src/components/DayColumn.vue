@@ -32,7 +32,7 @@ export default {
       let timeOfDayArray = []
       let DayColumnDate = new Date(this.DateInfo.dayTimeStanp).toLocaleDateString().split('/')
       let startDateTimeStanp = new Date(
-        `${DayColumnDate[2]}-${DayColumnDate[0]}-${DayColumnDate[1]} 06:00:00 GMT+03:30`
+        `${DayColumnDate[2]}-${DayColumnDate[0]}-${DayColumnDate[1]} 06:00:00`
       ).getTime()
       for (let i = 0; i < 36; i++) {
         let exteraTimeStanp = 1800000 * i
